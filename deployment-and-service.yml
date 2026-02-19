@@ -18,9 +18,9 @@ spec:
       containers:
       - name: swiggy-app
         image: nehakyatham/swiggy-app:latest
-        imagePullPolicy: "Always"
+        imagePullPolicy: Always
         ports:
-        - containerPort: 3000
+        - containerPort: 80   # NGINX SERVES ON PORT 80 NOW
 ---
 apiVersion: v1
 kind: Service
@@ -30,8 +30,8 @@ metadata:
     app: swiggy-app
 spec:
   type: LoadBalancer
-  ports:
-  - port: 80
-    targetPort: 3000
   selector:
     app: swiggy-app
+  ports:
+  - port: 80
+    targetPort: 80   # MUST MATCH NGINX PORT
