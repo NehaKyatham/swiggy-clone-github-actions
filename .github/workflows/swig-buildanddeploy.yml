@@ -6,8 +6,9 @@ on:
       - main
 
 jobs:
-  build:
-    name: Build
+
+  build-analyze-scan:
+    name: Build, Analyze & Scan
     runs-on: [self-hosted]
 
     steps:
@@ -37,6 +38,28 @@ jobs:
       - name: Trivy Image Scan
         run: trivy image nehakyatham/swiggy-app > trivyimage.txt
 
+      - name: Send a Slack Notification
+        if: always()
+        uses: act10ns/slack@v1
+        with:
+          status: ${{ job.status }}
+          steps: ${{ toJson(steps) }}
+          channel: 'channel-git-actions'
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+  deploy:
+    name: Deploy to Kubernetes
+    needs: build-analyze-scan
+    runs-on: [self-hosted]
+
+    steps:
+      - name: Update kubeconfig
+        run: aws eks --region eu-west-2 update-kubeconfig --name nehabox-cluster
+
+      - name: Deploy to Kubernetes
+        run: kubectl apply -f deployment-and-service.yml
+        
       - name: Send a Slack Notification
         if: always()
         uses: act10ns/slack@v1
