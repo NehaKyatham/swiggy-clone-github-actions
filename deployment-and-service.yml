@@ -17,10 +17,10 @@ spec:
       terminationGracePeriodSeconds: 30
       containers:
       - name: swiggy-app
-        image: nehakyatham/swiggy-app:latest
-        imagePullPolicy: Always
+        image: nehakyatham/swiggy-app-docker:latest
+        imagePullPolicy: "Always"
         ports:
-        - containerPort: 80   # NGINX SERVES ON PORT 80 NOW
+        - containerPort: 3000
 ---
 apiVersion: v1
 kind: Service
@@ -30,8 +30,8 @@ metadata:
     app: swiggy-app
 spec:
   type: LoadBalancer
-  selector:
-    app: swiggy-app
   ports:
   - port: 80
-    targetPort: 80   # MUST MATCH NGINX PORT
+    targetPort: 3000
+  selector:
+    app: swiggy-app
