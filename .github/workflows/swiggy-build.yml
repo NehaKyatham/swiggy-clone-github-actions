@@ -29,12 +29,12 @@ jobs:
       - name: Docker Build and Push
         uses: mr-smithers-excellent/docker-build-push@v6
         with:
-             image: nehakyatham/swiggy-app-docker
+             image: nehakyatham/swiggy-app
              tags: latest
              registry: docker.io
              username: ${{ secrets.DOCKERHUB_USERNAME }}
              password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Trivy Image Scan
-        run: trivy image nehakyatham/swiggy-app-docker > trivyimage.txt
+        run: trivy image nehakyatham/swiggy-app > trivyimage.txt
       
