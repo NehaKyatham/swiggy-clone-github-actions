@@ -54,7 +54,7 @@ jobs:
 
     steps:
       - name: Update kubeconfig
-        run: aws eks --region eu-west-2 update-kubeconfig --name nehabox-cluster
+        run: aws eks --region eu-west-2 update-kubeconfig --name swiggy-ga-cluster
 
       - name: Deploy to Kubernetes
         run: kubectl apply -f deployment-and-service.yml
