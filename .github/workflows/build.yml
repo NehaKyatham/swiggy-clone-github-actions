@@ -6,7 +6,6 @@ on:
       - main
 
 jobs:
-
   build-analyze-scan:
     name: Build, Analyze & Scan
     runs-on: [self-hosted]
@@ -29,7 +28,7 @@ jobs:
       - name: Docker Build and Push
         uses: mr-smithers-excellent/docker-build-push@v6
         with:
-          image: nehakyatham/swiggy-app
+          image: nehakyatham/swiggy-app-ga
           tags: latest,${{ github.run_number }}
           registry: docker.io
           username: ${{ secrets.DOCKERHUB_USERNAME }}
